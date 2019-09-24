@@ -36,12 +36,6 @@ namespace logReader
         private void ReadTxt()
         {
             string dirPath = @"C:\winformTest\" + jcodeBox.Text + @"\assemble\";
-            if (pnumber.Text.Length > 0)
-            {
-                dirPath += pnumber.Text + @"\";
-            }
-            else
-            {
                 if (Directory.Exists(dirPath))
                 {
                     DirectoryInfo di = new DirectoryInfo(dirPath);
@@ -56,17 +50,15 @@ namespace logReader
                             {
                                 if (line.Contains("fail"))
                                 {
-                                    searchCount++;
+                                searchList.Items.Add(line);
+                                     searchCount++;
                                 }
                             }
 
                         }
                     }
                 }
-            }
-
             //Console.WriteLine(searchCount);
-
         }
             private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
