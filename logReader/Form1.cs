@@ -35,6 +35,8 @@ namespace logReader
         }
         private void ReadTxt()
         {
+            List<string> arr = new List<string>();
+         
             string dirPath = @"C:\winformTest\" + jcodeBox.Text + @"\assemble\";
                 if (Directory.Exists(dirPath))
                 {
@@ -50,15 +52,22 @@ namespace logReader
                             {
                                 if (line.Contains("fail"))
                                 {
-                                searchList.Items.Add(line);
                                      searchCount++;
                                 }
                             }
-
+                            int no = 1;
+                            arr.Add("1");
+                            arr.Add("20190923");
+                            arr.Add(jcodeBox.Text);
+                            arr.Add(jcodeBox.Text + '점');
+                            arr.Add(pnumber.Text);
+                            arr.Add(keywordBox.Text);
+                            arr.Add("100");
                         }
                     }
                 }
-            //Console.WriteLine(searchCount);
+            ListViewItem lvi = new ListViewItem(arr.ToArray());
+            searchList.Items.Add(lvi);
         }
             private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
