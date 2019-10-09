@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,7 +22,8 @@ namespace logReader
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] jcode = { "1234", "0001" };
-            string[] ecode = { "ping fail", "1차->2차,2차->1차" };
+            string[] ecode = { "fail", "1차->2차,2차->1차" };
+            //콤보박스에 데이터 삽입 후, 1번째 값이 default
             jcodeBox.Items.AddRange(jcode);
             jcodeBox.SelectedIndex = 0;
             keywordBox.Items.AddRange(ecode);
@@ -31,43 +33,50 @@ namespace logReader
         private void button1_Click(object sender, EventArgs e)
         {
             searchList.Items.Clear();
-            ReadTxt();
+            ReadLog();
         }
-        private void ReadTxt()
+        private void ReadLog()
         {
-            List<string> arr = new List<string>();
-         
-            string dirPath = @"C:\winformTest\" + jcodeBox.Text + @"\assemble\";
-                if (Directory.Exists(dirPath))
+            //숫자아닌 빈값을 넣을경우 -> 전체검색
+            if(String.IsNullOrEmpty(pnumber.Text)){
+                int no = 1; //검색건수
+                List<string> arr = new List<string>();
+                string dirPath = @"C:\winformTest\" + jcodeBox.Text + @"\assemble\";
+                DirectoryInfo di = new DirectoryInfo(dirPath);
+                //모든 땡땡번호(폴더) 읽을때까지 반복
+                foreach (var pFolder in di.GetDirectories()) //pFolder 하나의 땡떙번호
                 {
-                    DirectoryInfo di = new DirectoryInfo(dirPath);
-                    foreach (var pFolder in di.GetDirectories())
+                    di = new DirectoryInfo(pFolder.FullName); //pFolder 안에있는 경로로 재설정
+                    //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
+                    foreach (var logFile in di.GetFiles())
                     {
-                        di = new DirectoryInfo(pFolder.FullName);
-                        foreach (var txtFile in di.GetFiles())
+                        string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
+                        int searchCount = 0;
+                        //해당로그에 검색키워드가 포함되어있는지 반복
+                        foreach (string line in lines)
                         {
-                            string[] lines = File.ReadAllLines(txtFile.FullName, Encoding.UTF8);
-                            int searchCount = 0;
-                            foreach (string line in lines)
+                            if (line.Contains(keywordBox.Text))
                             {
-                                if (line.Contains("fail"))
-                                {
-                                     searchCount++;
-                                }
+                                searchCount++;
                             }
-                            int no = 1;
-                            arr.Add("1");
-                            arr.Add("20190923");
-                            arr.Add(jcodeBox.Text);
-                            arr.Add(jcodeBox.Text + '점');
-                            arr.Add(pnumber.Text);
-                            arr.Add(keywordBox.Text);
-                            arr.Add("100");
                         }
+                        ListViewItem lvi = new ListViewItem(no.ToString());
+                        lvi.SubItems.Add("20191009");
+                        lvi.SubItems.Add(jcodeBox.Text);
+                        lvi.SubItems.Add("본점");
+                        lvi.SubItems.Add("땡땡번호");
+                        lvi.SubItems.Add(keywordBox.Text);
+                        lvi.SubItems.Add(searchCount.ToString());
+                        searchList.Items.Add(lvi);
+                        no++;
                     }
                 }
-            ListViewItem lvi = new ListViewItem(arr.ToArray());
-            searchList.Items.Add(lvi);
+            }
+            else
+            {
+                
+            }
+           
         }
             private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
