@@ -36,8 +36,9 @@ namespace logReader
             ReadLog();
         }
 
-        private void ReadLogFile(DirectoryInfo di, int no)
+        private void ReadLogFile(DirectoryInfo di, string pnum, int no)
         {
+            //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
             {
                 string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
@@ -50,11 +51,17 @@ namespace logReader
                         searchCount++;
                     }
                 }
+                Console.WriteLine("1:  " + logFile.Name);
+                Console.WriteLine("2:  " + logFile.Attributes);
+                Console.WriteLine("3:  " + logFile.Directory);
+                Console.WriteLine("4:  " + logFile.DirectoryName);
+                Console.WriteLine("5:  " + logFile.FullName);
+                Console.WriteLine("-------------");
                 ListViewItem lvi = new ListViewItem(no.ToString());
                 lvi.SubItems.Add("20191009");
                 lvi.SubItems.Add(jcodeBox.Text);
                 lvi.SubItems.Add("본점");
-                lvi.SubItems.Add("땡땡번호");
+                lvi.SubItems.Add(pnum);
                 lvi.SubItems.Add(keywordBox.Text);
                 lvi.SubItems.Add(searchCount.ToString());
                 searchList.Items.Add(lvi);
@@ -74,29 +81,7 @@ namespace logReader
                 foreach (var pFolder in di.GetDirectories()) //pFolder 하나의 땡떙번호
                 {
                     di = new DirectoryInfo(pFolder.FullName); //pFolder 안에있는 경로로 재설정
-                    //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
-                    foreach (var logFile in di.GetFiles())
-                    {
-                        string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
-                        int searchCount = 0;
-                        //해당로그에 검색키워드가 포함되어있는지 반복
-                        foreach (string line in lines)
-                        {
-                            if (line.Contains(keywordBox.Text))
-                            {
-                                searchCount++;
-                            }
-                        }
-                        ListViewItem lvi = new ListViewItem(no.ToString());
-                        lvi.SubItems.Add("20191009");
-                        lvi.SubItems.Add(jcodeBox.Text);
-                        lvi.SubItems.Add("본점");
-                        lvi.SubItems.Add("땡땡번호");
-                        lvi.SubItems.Add(keywordBox.Text);
-                        lvi.SubItems.Add(searchCount.ToString());
-                        searchList.Items.Add(lvi);
-                        no++;
-                    }
+                    ReadLogFile(di, pFolder.Name, no);
                 }
             }
             //땡땡번호가 입력된 경우
@@ -106,34 +91,20 @@ namespace logReader
                 //숫자가 아닌값이 들어온 경우 return
                 if (!int.TryParse(pnumber.Text, out pnum))
                 {
-                    MessageBox.Show("땡땡번호를 확인하세요.");
+                    MessageBox.Show("숫자만 입력가능합니다.");
                     return;
                 }
                 else
                 {
                     string dirPath = @"C:\winformTest\" + jcodeBox.Text + @"\assemble\" + pnumber.Text;
-                    DirectoryInfo di = new DirectoryInfo(dirPath); //pFolder 안에있는 경로로 재설정
-                    foreach (var logFile in di.GetFiles())
+                    if (Directory.Exists(dirPath)) {
+                        DirectoryInfo di = new DirectoryInfo(dirPath); //pFolder 안에있는 경로로 재설정
+                        int no = 1; //검색건수 넘버링 cf)전체폴더의 파일넘버링
+                        ReadLogFile(di, pnumber.Text, no);
+                    }
+                    else
                     {
-                        string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
-                        int searchCount = 0;
-                        //해당로그에 검색키워드가 포함되어있는지 반복
-                        foreach (string line in lines)
-                        {
-                            if (line.Contains(keywordBox.Text))
-                            {
-                                searchCount++;
-                            }
-                        }
-                        ListViewItem lvi = new ListViewItem(no.ToString());
-                        lvi.SubItems.Add("20191009");
-                        lvi.SubItems.Add(jcodeBox.Text);
-                        lvi.SubItems.Add("본점");
-                        lvi.SubItems.Add("땡땡번호");
-                        lvi.SubItems.Add(keywordBox.Text);
-                        lvi.SubItems.Add(searchCount.ToString());
-                        searchList.Items.Add(lvi);
-                        no++;
+                        MessageBox.Show("해당 땡땡번호가 없습니다.");
                     }
                 }
             }
