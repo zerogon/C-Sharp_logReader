@@ -14,6 +14,8 @@ namespace logReader
 {
     public partial class Form1 : Form
     {
+        public IFormatProvider KR_Format { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace logReader
             ReadLog();
         }
 
-        private void ReadLogFile(DirectoryInfo di, string pnum, int no)
+        private void ReadLogFile(DirectoryInfo di, string pnum, ref int no)
         {
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
@@ -51,14 +53,10 @@ namespace logReader
                         searchCount++;
                     }
                 }
-                Console.WriteLine("1:  " + logFile.Name);
-                Console.WriteLine("2:  " + logFile.Attributes);
-                Console.WriteLine("3:  " + logFile.Directory);
-                Console.WriteLine("4:  " + logFile.DirectoryName);
-                Console.WriteLine("5:  " + logFile.FullName);
-                Console.WriteLine("-------------");
+                string date = logFile.Name.Substring(7, 8);
+                DateTime transDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
                 ListViewItem lvi = new ListViewItem(no.ToString());
-                lvi.SubItems.Add("20191009");
+                lvi.SubItems.Add(transDate.ToShortDateString());
                 lvi.SubItems.Add(jcodeBox.Text);
                 lvi.SubItems.Add("본점");
                 lvi.SubItems.Add(pnum);
@@ -81,7 +79,7 @@ namespace logReader
                 foreach (var pFolder in di.GetDirectories()) //pFolder 하나의 땡떙번호
                 {
                     di = new DirectoryInfo(pFolder.FullName); //pFolder 안에있는 경로로 재설정
-                    ReadLogFile(di, pFolder.Name, no);
+                    ReadLogFile(di, pFolder.Name, ref no);
                 }
             }
             //땡땡번호가 입력된 경우
@@ -100,7 +98,7 @@ namespace logReader
                     if (Directory.Exists(dirPath)) {
                         DirectoryInfo di = new DirectoryInfo(dirPath); //pFolder 안에있는 경로로 재설정
                         int no = 1; //검색건수 넘버링 cf)전체폴더의 파일넘버링
-                        ReadLogFile(di, pnumber.Text, no);
+                        ReadLogFile(di, pnumber.Text,ref no);
                     }
                     else
                     {
