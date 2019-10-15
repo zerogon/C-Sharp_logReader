@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -53,10 +54,18 @@ namespace logReader
                         searchCount++;
                     }
                 }
-                string date = logFile.Name.Substring(7, 8);
-                DateTime transDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
+                string transDate = "";
+                string date = "";
+
+                Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
+                if (regex.IsMatch(logFile.Name))
+                {
+                    date = logFile.Name.Substring(7, 8);
+                    DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
+                    transDate = parseDate.ToShortDateString();
+                }
                 ListViewItem lvi = new ListViewItem(no.ToString());
-                lvi.SubItems.Add(transDate.ToShortDateString());
+                lvi.SubItems.Add(transDate);
                 lvi.SubItems.Add(jcodeBox.Text);
                 lvi.SubItems.Add("본점");
                 lvi.SubItems.Add(pnum);
