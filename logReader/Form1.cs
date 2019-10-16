@@ -41,38 +41,47 @@ namespace logReader
 
         private void ReadLogFile(DirectoryInfo di, string pnum, ref int no)
         {
+            string date = string.Empty;
+            string transDate = string.Empty;
+            // 0 : 오늘 , 1: 일주일 , 2: 한달
+            switch (dateRange.Value)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
             {
-                string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
-                int searchCount = 0;
-                //해당로그에 검색키워드가 포함되어있는지 반복
-                foreach (string line in lines)
-                {
-                    if (line.Contains(keywordBox.Text))
-                    {
-                        searchCount++;
-                    }
-                }
-                string transDate = "";
-                string date = "";
-
                 Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
                 if (regex.IsMatch(logFile.Name))
                 {
+                    string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
+                    int searchCount = 0;
+                    //해당로그에 검색키워드가 포함되어있는지 반복
+                    foreach (string line in lines)
+                    {
+                        if (line.Contains(keywordBox.Text))
+                        {
+                            searchCount++;
+                        }
+                    }
                     date = logFile.Name.Substring(7, 8);
                     DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
                     transDate = parseDate.ToShortDateString();
+                    ListViewItem lvi = new ListViewItem(no.ToString());
+                    lvi.SubItems.Add(transDate);
+                    lvi.SubItems.Add(jcodeBox.Text);
+                    lvi.SubItems.Add("본점");
+                    lvi.SubItems.Add(pnum);
+                    lvi.SubItems.Add(keywordBox.Text);
+                    lvi.SubItems.Add(searchCount.ToString());
+                    searchList.Items.Add(lvi);
+                    no++;
                 }
-                ListViewItem lvi = new ListViewItem(no.ToString());
-                lvi.SubItems.Add(transDate);
-                lvi.SubItems.Add(jcodeBox.Text);
-                lvi.SubItems.Add("본점");
-                lvi.SubItems.Add(pnum);
-                lvi.SubItems.Add(keywordBox.Text);
-                lvi.SubItems.Add(searchCount.ToString());
-                searchList.Items.Add(lvi);
-                no++;
             }
         }
 
@@ -140,7 +149,6 @@ namespace logReader
                 date1.Visible = true;
                 date2.Visible = true;
                 date3.Visible = true;
-
             }
 
         }

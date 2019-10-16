@@ -71,11 +71,11 @@
             this.columnHeader7});
             this.searchList.GridLines = true;
             this.searchList.HideSelection = false;
-            this.searchList.Location = new System.Drawing.Point(10, 93);
+            this.searchList.Location = new System.Drawing.Point(11, 116);
             this.searchList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.searchList.Name = "searchList";
             this.searchList.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.searchList.Size = new System.Drawing.Size(706, 333);
+            this.searchList.Size = new System.Drawing.Size(806, 415);
             this.searchList.TabIndex = 0;
             this.searchList.UseCompatibleStateImageBehavior = false;
             this.searchList.View = System.Windows.Forms.View.Details;
@@ -121,27 +121,29 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(245, 47);
+            this.progressBar1.Location = new System.Drawing.Point(280, 59);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(151, 23);
+            this.progressBar1.Size = new System.Drawing.Size(173, 29);
             this.progressBar1.TabIndex = 3;
             // 
             // jcodeBox
             // 
             this.jcodeBox.FormattingEnabled = true;
             this.jcodeBox.IntegralHeight = false;
-            this.jcodeBox.ItemHeight = 12;
-            this.jcodeBox.Location = new System.Drawing.Point(82, 20);
+            this.jcodeBox.ItemHeight = 15;
+            this.jcodeBox.Location = new System.Drawing.Point(94, 25);
+            this.jcodeBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.jcodeBox.Name = "jcodeBox";
-            this.jcodeBox.Size = new System.Drawing.Size(89, 20);
+            this.jcodeBox.Size = new System.Drawing.Size(101, 23);
             this.jcodeBox.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 25);
+            this.label1.Location = new System.Drawing.Point(37, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.Size = new System.Drawing.Size(52, 15);
             this.label1.TabIndex = 5;
             this.label1.Text = "코드 : ";
             // 
@@ -149,45 +151,48 @@
             // 
             this.keywordBox.FormattingEnabled = true;
             this.keywordBox.IntegralHeight = false;
-            this.keywordBox.ItemHeight = 12;
-            this.keywordBox.Location = new System.Drawing.Point(245, 21);
+            this.keywordBox.ItemHeight = 15;
+            this.keywordBox.Location = new System.Drawing.Point(280, 26);
+            this.keywordBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.keywordBox.Name = "keywordBox";
-            this.keywordBox.Size = new System.Drawing.Size(151, 20);
+            this.keywordBox.Size = new System.Drawing.Size(172, 23);
             this.keywordBox.TabIndex = 6;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(190, 25);
+            this.label2.Location = new System.Drawing.Point(217, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 12);
+            this.label2.Size = new System.Drawing.Size(62, 15);
             this.label2.TabIndex = 7;
             this.label2.Text = "검색명 :";
             // 
             // startDate
             // 
             this.startDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.startDate.Location = new System.Drawing.Point(489, 35);
+            this.startDate.Location = new System.Drawing.Point(559, 44);
+            this.startDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.startDate.Name = "startDate";
-            this.startDate.Size = new System.Drawing.Size(105, 21);
+            this.startDate.Size = new System.Drawing.Size(119, 25);
             this.startDate.TabIndex = 8;
             this.startDate.Visible = false;
             // 
             // endDate
             // 
             this.endDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.endDate.Location = new System.Drawing.Point(489, 62);
+            this.endDate.Location = new System.Drawing.Point(559, 78);
+            this.endDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.endDate.Name = "endDate";
-            this.endDate.Size = new System.Drawing.Size(105, 21);
+            this.endDate.Size = new System.Drawing.Size(119, 25);
             this.endDate.TabIndex = 9;
             this.endDate.Visible = false;
             // 
             // startDateLabel
             // 
             this.startDateLabel.AutoSize = true;
-            this.startDateLabel.Location = new System.Drawing.Point(438, 41);
+            this.startDateLabel.Location = new System.Drawing.Point(501, 51);
             this.startDateLabel.Name = "startDateLabel";
-            this.startDateLabel.Size = new System.Drawing.Size(45, 12);
+            this.startDateLabel.Size = new System.Drawing.Size(57, 15);
             this.startDateLabel.TabIndex = 10;
             this.startDateLabel.Text = "시작일:";
             this.startDateLabel.Visible = false;
@@ -195,18 +200,19 @@
             // endDateLabel
             // 
             this.endDateLabel.AutoSize = true;
-            this.endDateLabel.Location = new System.Drawing.Point(438, 67);
+            this.endDateLabel.Location = new System.Drawing.Point(501, 84);
             this.endDateLabel.Name = "endDateLabel";
-            this.endDateLabel.Size = new System.Drawing.Size(45, 12);
+            this.endDateLabel.Size = new System.Drawing.Size(57, 15);
             this.endDateLabel.TabIndex = 11;
             this.endDateLabel.Text = "종료일:";
             this.endDateLabel.Visible = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(632, 18);
+            this.button1.Location = new System.Drawing.Point(722, 22);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 37);
+            this.button1.Size = new System.Drawing.Size(74, 46);
             this.button1.TabIndex = 12;
             this.button1.Text = "검색";
             this.button1.UseVisualStyleBackColor = true;
@@ -215,18 +221,21 @@
             // dateRange
             // 
             this.dateRange.LargeChange = 1;
-            this.dateRange.Location = new System.Drawing.Point(438, 33);
+            this.dateRange.Location = new System.Drawing.Point(501, 41);
+            this.dateRange.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dateRange.Maximum = 2;
             this.dateRange.Name = "dateRange";
-            this.dateRange.Size = new System.Drawing.Size(163, 45);
+            this.dateRange.Size = new System.Drawing.Size(186, 56);
             this.dateRange.TabIndex = 13;
+            this.dateRange.Scroll += new System.EventHandler(this.dateRange_Scroll);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(429, 11);
+            this.checkBox1.Location = new System.Drawing.Point(490, 14);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(100, 16);
+            this.checkBox1.Size = new System.Drawing.Size(124, 19);
             this.checkBox1.TabIndex = 14;
             this.checkBox1.Text = "특정 기간선택";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -235,35 +244,36 @@
             // date1
             // 
             this.date1.AutoSize = true;
-            this.date1.Location = new System.Drawing.Point(436, 66);
+            this.date1.Location = new System.Drawing.Point(498, 82);
             this.date1.Name = "date1";
-            this.date1.Size = new System.Drawing.Size(29, 12);
+            this.date1.Size = new System.Drawing.Size(37, 15);
             this.date1.TabIndex = 15;
             this.date1.Text = "오늘";
             // 
             // date2
             // 
             this.date2.AutoSize = true;
-            this.date2.Location = new System.Drawing.Point(500, 66);
+            this.date2.Location = new System.Drawing.Point(571, 82);
             this.date2.Name = "date2";
-            this.date2.Size = new System.Drawing.Size(41, 12);
+            this.date2.Size = new System.Drawing.Size(52, 15);
             this.date2.TabIndex = 16;
             this.date2.Text = "일주일";
             // 
             // date3
             // 
             this.date3.AutoSize = true;
-            this.date3.Location = new System.Drawing.Point(575, 67);
+            this.date3.Location = new System.Drawing.Point(657, 84);
             this.date3.Name = "date3";
-            this.date3.Size = new System.Drawing.Size(29, 12);
+            this.date3.Size = new System.Drawing.Size(37, 15);
             this.date3.TabIndex = 17;
             this.date3.Text = "한달";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(620, 59);
+            this.button2.Location = new System.Drawing.Point(709, 74);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(87, 28);
+            this.button2.Size = new System.Drawing.Size(99, 35);
             this.button2.TabIndex = 18;
             this.button2.Text = "엑셀로 저장";
             this.button2.UseVisualStyleBackColor = true;
@@ -271,33 +281,34 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 53);
+            this.label3.Location = new System.Drawing.Point(9, 66);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 12);
+            this.label3.Size = new System.Drawing.Size(77, 15);
             this.label3.TabIndex = 19;
             this.label3.Text = "땡땡번호 :";
             // 
             // pnumber
             // 
-            this.pnumber.Location = new System.Drawing.Point(82, 51);
+            this.pnumber.Location = new System.Drawing.Point(94, 64);
+            this.pnumber.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnumber.Name = "pnumber";
-            this.pnumber.Size = new System.Drawing.Size(89, 21);
+            this.pnumber.Size = new System.Drawing.Size(101, 25);
             this.pnumber.TabIndex = 20;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(190, 54);
+            this.label4.Location = new System.Drawing.Point(217, 68);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 12);
+            this.label4.Size = new System.Drawing.Size(62, 15);
             this.label4.TabIndex = 21;
             this.label4.Text = "진행도 :";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 434);
+            this.ClientSize = new System.Drawing.Size(833, 542);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pnumber);
             this.Controls.Add(this.label3);
@@ -320,7 +331,7 @@
             this.Controls.Add(this.searchList);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.Text = "ㄴ";
+            this.Text = "logReader";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dateRange)).EndInit();
             this.ResumeLayout(false);
