@@ -43,10 +43,15 @@ namespace logReader
         {
             string date = string.Empty;
             string transDate = string.Empty;
+            string rangeDate = string.Empty;
+            Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
+            
             // 0 : 오늘 , 1: 일주일 , 2: 한달
             switch (dateRange.Value)
             {
                 case 0:
+                    rangeDate = DateTime.Now.ToShortDateString();
+                    Console.WriteLine("현재 rageDate: "+rangeDate);
                     break;
                 case 1:
                     break;
@@ -56,9 +61,17 @@ namespace logReader
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
             {
-                Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
                 if (regex.IsMatch(logFile.Name))
                 {
+                    date = logFile.Name.Substring(7, 8);
+                  //  Console.WriteLine(rangeDate);
+                    DateTime dtDate = DateTime.ParseExact(date, "yyyyMMdd", null);
+                    Console.WriteLine(dtDate);
+
+                    if (dtDate.ToShortDateString().Equals(rangeDate)) {
+                        Console.WriteLine("ee");
+                    }
+
                     string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
                     int searchCount = 0;
                     //해당로그에 검색키워드가 포함되어있는지 반복
@@ -69,7 +82,6 @@ namespace logReader
                             searchCount++;
                         }
                     }
-                    date = logFile.Name.Substring(7, 8);
                     DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
                     transDate = parseDate.ToShortDateString();
                     ListViewItem lvi = new ListViewItem(no.ToString());
@@ -104,7 +116,6 @@ namespace logReader
             else
             {
                 int pnum;
-                //숫자가 아닌값이 들어온 경우 return
                 if (!int.TryParse(pnumber.Text, out pnum))
                 {
                     MessageBox.Show("숫자만 입력가능합니다.");

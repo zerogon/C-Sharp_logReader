@@ -227,7 +227,6 @@
             this.dateRange.Name = "dateRange";
             this.dateRange.Size = new System.Drawing.Size(186, 56);
             this.dateRange.TabIndex = 13;
-            this.dateRange.Scroll += new System.EventHandler(this.dateRange_Scroll);
             // 
             // checkBox1
             // 
