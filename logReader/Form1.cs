@@ -54,8 +54,10 @@ namespace logReader
                     Console.WriteLine("현재 rageDate: "+rangeDate);
                     break;
                 case 1:
+                    rangeDate = DateTime.Now.ToShortDateString();
                     break;
                 case 2:
+                    rangeDate = DateTime.Now.ToShortDateString();
                     break;
             }
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
