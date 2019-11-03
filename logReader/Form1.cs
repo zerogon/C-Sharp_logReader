@@ -43,21 +43,23 @@ namespace logReader
         {
             string date = string.Empty;
             string transDate = string.Empty;
-            string rangeDate = string.Empty;
+            DateTime rangeDate = new DateTime();
             Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
             
             // 0 : 오늘 , 1: 일주일 , 2: 한달
             switch (dateRange.Value)
             {
                 case 0:
-                    rangeDate = DateTime.Now.ToShortDateString();
+                    rangeDate = DateTime.Now;
                     Console.WriteLine("현재 rageDate: "+rangeDate);
                     break;
                 case 1:
-                    rangeDate = DateTime.Now.ToShortDateString();
+                    rangeDate = DateTime.Now.AddDays(-7);
+                    Console.WriteLine("일주일 rageDate: "+rangeDate);
                     break;
                 case 2:
-                    rangeDate = DateTime.Now.ToShortDateString();
+                    rangeDate = DateTime.Now.AddDays(-30);
+                    Console.WriteLine("한달 rageDate: "+rangeDate); // 2019-10-01
                     break;
             }
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
@@ -68,11 +70,12 @@ namespace logReader
                     date = logFile.Name.Substring(7, 8);
                   //  Console.WriteLine(rangeDate);
                     DateTime dtDate = DateTime.ParseExact(date, "yyyyMMdd", null);
-                    Console.WriteLine(dtDate);
-
-                    if (dtDate.ToShortDateString().Equals(rangeDate)) {
-                        Console.WriteLine("ee");
+                    
+                    if(dtDate.ToShortDateString().Equals(rangeDate.ToShortDateString()))
+                    {
+                        Console.WriteLine("같은날");
                     }
+                  
 
                     string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
                     int searchCount = 0;
