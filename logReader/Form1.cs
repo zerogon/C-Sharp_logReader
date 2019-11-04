@@ -75,7 +75,12 @@ namespace logReader
                     {
                         Console.WriteLine("같은날");
                     }
-                  
+                    else if(dtDate<rangeDate){
+
+                    }else if (dtDate > rangeDate)
+                    {
+
+                    }
 
                     string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
                     int searchCount = 0;
