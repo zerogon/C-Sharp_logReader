@@ -76,10 +76,10 @@ namespace logReader
                         Console.WriteLine("같은날");
                     }
                     else if(dtDate<rangeDate){
-
+                        Console.WriteLine("범위체크 필요");
                     }else if (dtDate > rangeDate)
                     {
-
+                        Console.WriteLine();
                     }
 
                     string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
