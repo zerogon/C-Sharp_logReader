@@ -39,70 +39,79 @@ namespace logReader
             ReadLog();
         }
 
-        private void ReadLogFile(DirectoryInfo di, string pnum, ref int no)
+        private string setRangeDate()
         {
-            string date = string.Empty;
-            string transDate = string.Empty;
             DateTime rangeDate = new DateTime();
-            Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
-            
             // 0 : 오늘 , 1: 일주일 , 2: 한달
             switch (dateRange.Value)
             {
                 case 0:
                     rangeDate = DateTime.Now;
-                    Console.WriteLine("현재 rageDate: "+rangeDate);
                     break;
                 case 1:
                     rangeDate = DateTime.Now.AddDays(-7);
-                    Console.WriteLine("일주일 rageDate: "+rangeDate);
                     break;
                 case 2:
                     rangeDate = DateTime.Now.AddDays(-30);
-                    Console.WriteLine("한달 rageDate: "+rangeDate); // 2019-10-01
                     break;
             }
+            return rangeDate.ToString("yyyyMMdd");
+        }
+
+        private void ReadLogFile(DirectoryInfo di, string pnum, ref int no)
+        {
+
+            /*
+             *  >String -> Datetime -> 2019-12-21
+             *  DateTime parseDate = DateTime.ParseExact("2019-12-21", "yyyyMMdd", KR_Format);
+             *  transDate = parseDate.ToShortDateString();
+             *  
+             *  >DateTime -> yyyyMMdd > int 
+             *   DateTime rangeDate = new DateTime();
+             *   rangeDate.ToString("yyyyMMdd");
+             *   int rDate = Convert.ToInt32(rangeDate);
+             *   
+             */
+            string date = string.Empty;
+            string transDate = string.Empty;
+            string rangeDate = setRangeDate();
+            Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
+
+            int rDate = Convert.ToInt32(rangeDate);
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
             {
                 if (regex.IsMatch(logFile.Name))
                 {
                     date = logFile.Name.Substring(7, 8);
-                  //  Console.WriteLine(rangeDate);
-                    DateTime dtDate = DateTime.ParseExact(date, "yyyyMMdd", null);
-                    
-                    if(dtDate.ToShortDateString().Equals(rangeDate.ToShortDateString()))
+                    int dtDate = Convert.ToInt32(date);
+
+                    if (rDate == dtDate)
                     {
-                        Console.WriteLine("같은날");
-                    }
-                    else if(dtDate<rangeDate){
-                        Console.WriteLine("범위체크 필요");
-                    }else if (dtDate > rangeDate)
-                    {
-                        Console.WriteLine();
+                        string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
+                        int searchCount = 0;
+                        //해당로그에 검색키워드가 포함되어있는지 반복
+                        foreach (string line in lines)
+                        {
+                            if (line.Contains(keywordBox.Text))
+                            {
+                                searchCount++;
+                            }
+                        }
+                        DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
+                        transDate = parseDate.ToShortDateString();
+                        ListViewItem lvi = new ListViewItem(no.ToString());
+                        lvi.SubItems.Add(transDate);
+                        lvi.SubItems.Add(jcodeBox.Text);
+                        lvi.SubItems.Add("본점");
+                        lvi.SubItems.Add(pnum);
+                        lvi.SubItems.Add(keywordBox.Text);
+                        lvi.SubItems.Add(searchCount.ToString());
+                        searchList.Items.Add(lvi);
+                        no++;
                     }
 
-                    string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
-                    int searchCount = 0;
-                    //해당로그에 검색키워드가 포함되어있는지 반복
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains(keywordBox.Text))
-                        {
-                            searchCount++;
-                        }
-                    }
-                    DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
-                    transDate = parseDate.ToShortDateString();
-                    ListViewItem lvi = new ListViewItem(no.ToString());
-                    lvi.SubItems.Add(transDate);
-                    lvi.SubItems.Add(jcodeBox.Text);
-                    lvi.SubItems.Add("본점");
-                    lvi.SubItems.Add(pnum);
-                    lvi.SubItems.Add(keywordBox.Text);
-                    lvi.SubItems.Add(searchCount.ToString());
-                    searchList.Items.Add(lvi);
-                    no++;
+                   
                 }
             }
         }
