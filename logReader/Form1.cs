@@ -84,9 +84,10 @@ namespace logReader
                 if (regex.IsMatch(logFile.Name))
                 {
                     date = logFile.Name.Substring(7, 8);
-                    int dtDate = Convert.ToInt32(date);
-
-                    if (rDate == dtDate)
+                    int lDate = Convert.ToInt32(date);
+                    Console.WriteLine("lDate:", lDate);
+                    Console.WriteLine("RDate:", rDate);
+                    if (rDate == lDate)
                     {
                         string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
                         int searchCount = 0;
@@ -109,7 +110,17 @@ namespace logReader
                         lvi.SubItems.Add(searchCount.ToString());
                         searchList.Items.Add(lvi);
                         no++;
+                    }else if (rDate == lDate)
+                    {
+
                     }
+                    /*
+                        r-7 < ldate < tdate
+                        r-30< ldate < tdate
+                        r_tp = ldate = tdate
+                 
+                    */
+                    
 
                    
                 }
