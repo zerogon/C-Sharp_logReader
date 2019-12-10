@@ -76,8 +76,10 @@ namespace logReader
             string transDate = string.Empty;
             string rangeDate = setRangeDate();
             Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
-
+            
             int rDate = Convert.ToInt32(rangeDate);
+            int tDate = Convert.ToInt32(DateTime.Now.ToString("yyyyMMdd"));
+
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
             {
@@ -85,9 +87,9 @@ namespace logReader
                 {
                     date = logFile.Name.Substring(7, 8);
                     int lDate = Convert.ToInt32(date);
-                    Console.WriteLine("lDate:", lDate);
-                    Console.WriteLine("RDate:", rDate);
-                    if (rDate == lDate)
+                    Console.WriteLine("lDate:"+ lDate);
+                    Console.WriteLine("RDate:"+ rDate);
+                    if (rDate == lDate && lDate == tDate)
                     {
                         string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
                         int searchCount = 0;
@@ -110,9 +112,9 @@ namespace logReader
                         lvi.SubItems.Add(searchCount.ToString());
                         searchList.Items.Add(lvi);
                         no++;
-                    }else if (rDate == lDate)
+                    }else if (rDate < tDate && (tDate - rDate == 7))
                     {
-
+                        Console.WriteLine("일주일이내");
                     }
                     /*
                         r-7 < ldate < tdate
