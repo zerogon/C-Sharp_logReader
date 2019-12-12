@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +26,7 @@ namespace logReader
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] jcode = { "1234", "0001" };
-            string[] ecode = { "fail", "1차->2차,2차->1차" };
+            string[] ecode = { "Ping fail!", "Target server change" };
             //콤보박스에 데이터 삽입 후, 1번째 값이 default
             jcodeBox.Items.AddRange(jcode);
             jcodeBox.SelectedIndex = 0;
@@ -57,6 +58,31 @@ namespace logReader
             }
             return rangeDate.ToString("yyyyMMdd");
         }
+        private void itemAdd(FileInfo logFile, string date, string pnum, ref int no)
+        {
+            string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
+            int searchCount = 0;
+            //해당로그에 검색키워드가 포함되어있는지 반복
+            foreach (string line in lines)
+            {
+                if (line.Contains(keywordBox.Text))
+                {
+                    searchCount++;
+                }
+            }
+            DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
+            string transDate = parseDate.ToShortDateString();
+            ListViewItem lvi = new ListViewItem(no.ToString());
+            lvi.SubItems.Add(transDate);
+            lvi.SubItems.Add(jcodeBox.Text);
+            lvi.SubItems.Add("본점");
+            lvi.SubItems.Add(pnum);
+            lvi.SubItems.Add(keywordBox.Text);
+            lvi.SubItems.Add(searchCount.ToString());
+            searchList.Items.Add(lvi);
+            no++;
+        }
+
 
         private void ReadLogFile(DirectoryInfo di, string pnum, ref int no)
         {
@@ -73,12 +99,14 @@ namespace logReader
              *   
              */
             string date = string.Empty;
-            string transDate = string.Empty;
             string rangeDate = setRangeDate();
-            Regex regex = new Regex(@"^poslog_20[0-9]{6}.txt");
+            Regex regex = new Regex(@"^PosLog_20[0-9]{6}.log");
             
             int rDate = Convert.ToInt32(rangeDate);
             int tDate = Convert.ToInt32(DateTime.Now.ToString("yyyyMMdd"));
+
+            ArrayList logFileList = new ArrayList();
+
 
             //땡땡번호(폴더)안에 있는 모든 파일 읽을때까지 반복
             foreach (var logFile in di.GetFiles())
@@ -87,44 +115,17 @@ namespace logReader
                 {
                     date = logFile.Name.Substring(7, 8);
                     int lDate = Convert.ToInt32(date);
-                    Console.WriteLine("lDate:"+ lDate);
-                    Console.WriteLine("RDate:"+ rDate);
                     if (rDate == lDate && lDate == tDate)
                     {
-                        string[] lines = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
-                        int searchCount = 0;
-                        //해당로그에 검색키워드가 포함되어있는지 반복
-                        foreach (string line in lines)
-                        {
-                            if (line.Contains(keywordBox.Text))
-                            {
-                                searchCount++;
-                            }
-                        }
-                        DateTime parseDate = DateTime.ParseExact(date, "yyyyMMdd", KR_Format);
-                        transDate = parseDate.ToShortDateString();
-                        ListViewItem lvi = new ListViewItem(no.ToString());
-                        lvi.SubItems.Add(transDate);
-                        lvi.SubItems.Add(jcodeBox.Text);
-                        lvi.SubItems.Add("본점");
-                        lvi.SubItems.Add(pnum);
-                        lvi.SubItems.Add(keywordBox.Text);
-                        lvi.SubItems.Add(searchCount.ToString());
-                        searchList.Items.Add(lvi);
-                        no++;
-                    }else if (rDate < tDate && (tDate - rDate == 7))
+                        itemAdd(logFile, date, pnum, ref no);
+                    }else if ((tDate - rDate == 7) && rDate <= lDate )
                     {
-                        Console.WriteLine("일주일이내");
+                        itemAdd(logFile, date, pnum, ref no);
+                    }else if ((tDate-rDate == 100) && rDate <= lDate )
+                    {
+                        Console.WriteLine("30일");
+                        itemAdd(logFile, date, pnum, ref no);
                     }
-                    /*
-                        r-7 < ldate < tdate
-                        r-30< ldate < tdate
-                        r_tp = ldate = tdate
-                 
-                    */
-                    
-
-                   
                 }
             }
         }
